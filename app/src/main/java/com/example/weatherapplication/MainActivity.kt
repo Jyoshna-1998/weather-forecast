@@ -116,7 +116,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Handle real-time text change if needed
+                if(newText.isNullOrEmpty()){
+                    fetchLocation()
+                }
                 return true
             }
         })
