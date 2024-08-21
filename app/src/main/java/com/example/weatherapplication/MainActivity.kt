@@ -1,11 +1,13 @@
 package com.example.weatherapplication
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.GlideException
@@ -29,7 +32,7 @@ import com.google.android.gms.location.LocationServices
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
+import com.example.weatherapplication.BuildConfig
 
 class MainActivity : AppCompatActivity() {
 
@@ -69,10 +72,23 @@ class MainActivity : AppCompatActivity() {
             requestLocationPermission()
         }
 
+        binding.forecastButton.setOnClickListener {
+            val intent = Intent(this, ForeCastActivity::class.java)
+            val cityName = binding.searchBarContainer.query.toString().trim()
+            if (cityName.isNotEmpty()) {
+                intent.putExtra("CITY_NAME", cityName)
+            }
+            startActivity(intent)
+        }
         setupObservers()
         val searchView: SearchView = findViewById(R.id.searchBarContainer)
-        val searchEditText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+        val searchEditText =
+            searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
         searchEditText.setTextColor(Color.WHITE)
+
+        viewModel.loading.observe(this, Observer { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
 
         binding.searchBarContainer.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -82,11 +98,11 @@ class MainActivity : AppCompatActivity() {
                     if (cityName.isNotEmpty()) {
                         viewModel.fetchWeatherByCity(
                             cityName = cityName,
-                            apiKey = "a9d7877ecf28b142eab78b39d9e14c03"
+                            apiKey = BuildConfig.apiKey
                         )
                         viewModel.fetchForecastWeatherByCity(
                             cityName = cityName,
-                            apiKey = "a9d7877ecf28b142eab78b39d9e14c03"
+                            apiKey = BuildConfig.apiKey
                         )
                     } else {
                         Toast.makeText(
@@ -130,14 +146,14 @@ class MainActivity : AppCompatActivity() {
                     viewModel.fetchWeather(
                         latitude = location.latitude,
                         longitude = location.longitude,
-                        apiKey = "a9d7877ecf28b142eab78b39d9e14c03"
+                        apiKey = BuildConfig.apiKey
                     )
 
                     // Call fetchForecast here
                     viewModel.fetchForecast(
                         latitude = location.latitude,
                         longitude = location.longitude,
-                        apiKey = "a9d7877ecf28b142eab78b39d9e14c03"
+                        apiKey = BuildConfig.apiKey
                     )
                 } else {
                     Toast.makeText(this, "Unable to get location", Toast.LENGTH_SHORT).show()
@@ -161,13 +177,20 @@ class MainActivity : AppCompatActivity() {
                 binding.tvDescription.text = weatherResponse.weather.firstOrNull()?.main
 
                 binding.tvLocationName.text = weatherResponse.name
+                binding.tvPressureTemp.text = weatherResponse.main.pressure.toString()
+                binding.tvHumudityTemp.text =
+                    "${weatherResponse.main.humidity}%"  // Set humidity value
+
+                binding.tvWindSpeedTemp.text =
+                    "${weatherResponse.wind.speed} m/s" // Set wind speed value
+
 
                 val maxtempFahrenheit = weatherResponse.main.tempMax
                 val maxtempCelsius = kelvinToCelsius(maxtempFahrenheit)
-                binding.tvMaxTemp.text = String.format("Max temp %.2f°C", maxtempCelsius)
+                binding.tvMaxTemp.text = String.format("%.2f°C", maxtempCelsius)
                 val minTempFahrenheit = weatherResponse.main.tempMin
                 val mintempCelsius = kelvinToCelsius(minTempFahrenheit)
-                binding.tvMinTemp.text = String.format("Min temp %.2f°C", mintempCelsius)
+                binding.tvMinTemp.text = String.format("%.2f°C", mintempCelsius)
 
                 val iconUrl =
                     "https://openweathermap.org/img/wn/${weatherResponse.weather.firstOrNull()?.icon}.png"

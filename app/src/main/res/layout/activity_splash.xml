@@ -15,21 +15,30 @@
         app:layout_constraintBottom_toTopOf="@+id/splashText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/splashText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Weather Forecast"
-        android:textSize="24sp"
+        android:text="Weather"
+        android:textSize="36sp"
+        android:textStyle="bold"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/getStartedButton"
+        app:layout_constraintTop_toBottomOf="@id/splashImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/splashImage"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/splashforecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forecast"
+        android:textSize="36sp"
+        android:textColor="#F8AC15"
+        app:layout_constraintTop_toBottomOf="@id/splashText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/getStartedButton"

@@ -3,19 +3,25 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id 'kotlin-kapt'
 }
+import java.util.Properties
+import java.io.FileInputStream
+import java.util.Properties
+def properties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    properties.load(new FileInputStream(localPropertiesFile))
+}
 
 android {
     namespace 'com.example.weatherapplication'
     compileSdk 34
-
     defaultConfig {
         applicationId "com.example.weatherapplication"
         minSdk 28
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "apiKey", properties.getProperty("apiKey"))
     }
 
     buildTypes {
@@ -34,6 +40,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        buildConfig=true
     }
 
     buildFeatures {

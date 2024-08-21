@@ -13,13 +13,10 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Button click listener
         binding.getStartedButton.setOnClickListener {
-            // Navigate to the main activity or any other activity
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            finish() // Optional: finish the splash activity so it can't be returned to
+            finish()
         }
     }
 }
