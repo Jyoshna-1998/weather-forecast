@@ -29,6 +29,11 @@ The splash screen displays a welcoming graphic or logo while the app initializes
 
 ![Screenshot 2024-08-21 160607](https://github.com/user-attachments/assets/91c21833-979a-4460-99e3-dd7f156d97c4)
 
+Location Access
+
+![image](https://github.com/user-attachments/assets/eb5ebcc5-63a8-4a04-912a-be2b02b97778)
+
+
 Main Screen:
 The main screen shows the current weather for the user’s location, including temperature, humidity, weather conditions, and a relevant icon.
 
