@@ -9,7 +9,7 @@ This is a weather application that fetches and displays the current weather for 
 - Supports offline functionality by caching the last seen weather data.
 - Built using the MVVM architecture pattern with Retrofit, Kotlin Coroutines, and LiveData.
 -  XML for UI design, following modern Android development best practices.
-
+- search functionality based on city and 5days forecast data. 
 ## Tech Stack
 
 - **Language:** Kotlin
@@ -65,3 +65,5 @@ add this in apiKey="apikey"
    ```bash
    git clone https://github.com/your-username/weather-app.git
    cd weather-app
+**APK file**
+https://drive.google.com/file/d/1kY6CuPM8UjW-ji42RSNM-GC9HSPWW1tb/view?usp=sharing
