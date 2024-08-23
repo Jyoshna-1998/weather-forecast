@@ -14,7 +14,7 @@ This is a weather application that fetches and displays the current weather for 
 
 - **Language:** Kotlin
 - **Architecture:** MVVM (Model-View-ViewModel)
-- **UI Design:** XML / Jetpack Compose
+- **UI Design:** XML 
 - **Networking:** Retrofit
 - **Asynchronous Tasks:** Kotlin Coroutines
 - **Data Binding:** LiveData
